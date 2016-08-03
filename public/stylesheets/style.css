@@ -1,0 +1,50 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.header {
+  height: 40px;
+  width: 200px;
+  text-align: center;
+}
+.body {
+  width: 200px;
+}
+.level1, .level2, .level3 {
+  border: 2px solid #DDD;
+
+}
+.level1 {
+  background-color: #DFF0D8;
+  width: 200px;
+}
+.level1 .item {
+  margin-bottom: 20px;
+}
+.level1 .item span {
+  cursor: pointer;
+}
+.level2 {
+  margin-left: 20px;
+  background-color: #D9EDF7;
+}
+.level3 {
+  margin-left: 20px;
+  background-color: #FCF8E3;
+}
+.item {
+  display: inline;
+}
+.header-item {
+  width: 33.33%;
+  float: left;
+}
+.header-item .btn {
+  width: 100%;
+  border-radius: 0;
+}

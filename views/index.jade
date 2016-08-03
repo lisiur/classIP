@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  form(action="/uploads/upload_file", method="post", enctype="multipart/form-data")
+    div.form-group
+      label(for="file")选择文件
+      input(type="file", name="file")
+      p.help-block 只支持xlsx格式，待汇聚的ip列的标题必须为B_IP.
+    div.form-group
+      label(for="zoom")权重调整
+      input(type="text", class="form-control", name="zoom", value="1")
+      p.help-block 默认为1，数字越大，分组将越少.
+    div.form-group
+      input(type="submit", class="btn btn-primary", value="开始分析")
