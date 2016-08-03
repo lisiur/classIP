@@ -245,7 +245,7 @@ router.post('/upload_file', upload.single('file'), function(req, res, next) {
     }
     console.log("写入文件成功！");
   });
-  res.render('result',{classed_IP: classed_IP, tj: tongji});
+  res.render('result',{classed_IP: classed_IP, tj: tongji, title: '分析成功'});
 
 });
 
