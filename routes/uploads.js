@@ -236,7 +236,7 @@ router.post('/upload_file', upload.single('file'), function(req, res, next) {
   var write_data = '';
   for(var w in classed_IP) {
     for(var y in classed_IP[w]) {
-      write_data = write_data + classed_IP[w][y].ip10 + '\n';
+      write_data = write_data + classed_IP[w][y].ip10 + '/' + classed_IP[w][y].mask + '\n';
     }
   }
   fs.writeFile(req.session.filepath, write_data, function (err) {
