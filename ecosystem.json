@@ -34,7 +34,7 @@
       host : "114.215.88.234",
       ref  : "origin/master",
       repo : "git@github.com:lisiur/classIP.git",
-      path : "/var/www/classIP",
+      path : "/var/www/daipeiwu.com/classIP",
       "post-deploy" : "npm install && pm2 startOrRestart ecosystem.json --env production"
     },
     dev : {
