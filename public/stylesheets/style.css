@@ -7,13 +7,45 @@ a {
   color: #00B7FF;
 }
 
+.width-7 {
+  width: 70%;
+}
+
+.width-3 {
+  width: 30%;
+}
+
+.left {
+  float: left;
+}
+.left::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .header {
-  height: 40px;
-  width: 200px;
+  height: 34px;
+  width: 250px;
+  margin-bottom: 10px;
   text-align: center;
 }
+.maimeng {
+  width: 250px;
+  height: 34px;
+  margin-bottom: 10px;
+}
+.maimeng #rejudge {
+  width: 100%;
+}
+.maimeng input {
+  border-radius: 0;
+}
+.maimeng .btn {
+  border-radius: 0;
+}
 .body {
-  width: 200px;
+  width: 250px;
 }
 .level1, .level2, .level3 {
   border: 2px solid #DDD;
@@ -21,7 +53,7 @@ a {
 }
 .level1 {
   background-color: #DFF0D8;
-  width: 200px;
+  width: 250px;
 }
 .level1 .item {
   margin-bottom: 20px;

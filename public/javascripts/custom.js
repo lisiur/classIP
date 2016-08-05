@@ -1,4 +1,5 @@
-$(document).ready(function() {
+$("document").ready(function() {
+  // 填充ip二进制为八位
   function tcip(str) {
     var b_ip_2 = str;
     var b_ip_2_len = b_ip_2.length;
@@ -7,6 +8,7 @@ $(document).ready(function() {
     }
     return b_ip_2;
   }
+  // 添加监听事件
   $('span.ip').each(function() {
     var ip = $(this).text().split('/')[0];
     var ip_b = ip.split('.')[1];
@@ -24,6 +26,19 @@ $(document).ready(function() {
     var self = this;
     $(self).click(function () {
       $(self).parent().children('.ip-hint').toggle(200);
+    });
+  });
+
+  // AJAX
+  $(function() {
+    $('#rejudge').on("click", function(e) {
+      console.log("ajax");
+      var parameters = { weight: $("#weight").val() };
+      $.post('/uploads/rejudge', parameters, function(data, status) {
+        console.log(status);
+        $('.body').html(data.html);
+        $('.tj span').html(data.tongji.now +'/' + data.tongji.original)
+      });
     });
   });
 });

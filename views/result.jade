@@ -9,6 +9,12 @@ block content
         input(type="submit" class="btn btn-success" value="下载")
     div(class="header-item")
       a(class="btn btn-default", href="/")返回
+  
+  div.maimeng
+    div(class="width-7 left")
+      input(id="weight", class="form-control")
+    div(class="width-3 left")
+      button(id="rejudge", class="btn btn-primary") 分析
   div.body
     div.level1
       - for (var aip in classed_IP){

@@ -21,20 +21,10 @@ var storage = multer.diskStorage({
 });
 var upload = multer({storage: storage});
 
-router.post('/download', function(req, res, next) {
-  res.download(process.cwd() + '/' + req.session.filepath);
-});
-router.post('/upload_file', upload.single('file'), function(req, res, next) {
-  var zoom = parseFloat(req.body.zoom);
-  req.session.filepath = req.file.path.split('.')[0]+'.txt';
-  var workbook = XLSX.readFile(req.file.path);
-  var first_sheet_name = workbook.SheetNames[0];
-  var worksheet = workbook.Sheets[first_sheet_name];
-  var all_data = XLSX.utils.sheet_to_json(worksheet);
-  var tongji = {
-    original: all_data.length,
-  };
-
+var analsys = function(all_data, zoom) {
+  if (isNaN(zoom)) {
+    zoom = 1;
+  }
   function IP(ip, type) {
     var ips = ip.split('.');
     var tmp = [];
@@ -79,7 +69,7 @@ router.post('/upload_file', upload.single('file'), function(req, res, next) {
     return b_ip_2;
   }
 
-
+  var classed_IP = {}; //classed_IP保存汇聚完毕的ip地址
   //创建IP对象，并依据其A类地址进行分类，保存在a_ips中
   var a_ips = []; //A类IP
   for(var o in all_data) {
@@ -99,10 +89,6 @@ router.post('/upload_file', upload.single('file'), function(req, res, next) {
       }
     }
   }
-
-  // console.log(a_ips);
-  var classed_IP = {}; //classed_IP保存汇聚完毕的ip地址
-
 
   for(var a_ip in a_ips) { //对每组同类ip地址处理
     if(a_ips[a_ip] !== null) {
@@ -224,10 +210,26 @@ router.post('/upload_file', upload.single('file'), function(req, res, next) {
       // console.log(classed_IP);
 
     }// end while
-
-
   }
-  // console.log(classed_IP);
+  return classed_IP;
+};
+
+router.post('/download', function(req, res, next) {
+  res.download(process.cwd() + '/' + req.session.filepath);
+});
+router.post('/rejudge', function(req, res) {
+  console.log(req.body);
+  var zoom = parseFloat(req.body.weight);
+
+  var workbook = XLSX.readFile(req.session.filepath.split('.')[0]+'.xlsx');
+  var first_sheet_name = workbook.SheetNames[0];
+  var worksheet = workbook.Sheets[first_sheet_name];
+  var all_data = XLSX.utils.sheet_to_json(worksheet);
+
+  var classed_IP = analsys(all_data, zoom);
+  var tongji = {
+    original: all_data.length,
+  };
   var tj = 0;
   for (var ipp in classed_IP){
     tj += classed_IP[ipp].length;
@@ -239,12 +241,78 @@ router.post('/upload_file', upload.single('file'), function(req, res, next) {
       write_data = write_data + classed_IP[w][y].ip10 + '/' + classed_IP[w][y].mask + '\n';
     }
   }
+
   fs.writeFile(req.session.filepath, write_data, function (err) {
     if(err) {
       console.error(err);
     }
     console.log("写入文件成功！");
   });
+
+  var html = '<div class="level1">';
+
+  for(var aaip in classed_IP) {
+    html = html + '<div class="item">'
+                +     '<span class="ip">'
+                +         aaip
+                +     '</sapn>'
+                +     '<div class="level2">';
+    for(var bip in classed_IP[aaip]) {
+      html = html +       '<div class="item">'
+                  +          '<span class="ip">'
+                  +              classed_IP[aaip][bip].ip10 + '/' + classed_IP[aaip][bip].mask
+                  +          '</span>';
+      for(var iip in classed_IP[aaip][bip].subip) {
+        html = html +        '<div class="level3">'
+                    +            '<div class="item">'
+                    +                '<span class="ip">'
+                    +                     classed_IP[aaip][bip].subip[iip].ip10 + '/' + classed_IP[aaip][bip].subip[iip].mask
+                    +                '</span>'
+                    +            '</div>'
+                    +         '</div>';
+      }
+      html = html + '</div>';
+    }
+    html = html + '</div></div>';
+  }
+  html = html + '</div>';
+  res.send({html: html, tongji: tongji});
+});
+router.post('/upload_file', upload.single('file'), function(req, res, next) {
+  var zoom = parseFloat(req.body.zoom);
+  var workbook = XLSX.readFile(req.file.path);
+  var first_sheet_name = workbook.SheetNames[0];
+  var worksheet = workbook.Sheets[first_sheet_name];
+  var all_data = XLSX.utils.sheet_to_json(worksheet);
+
+  var classed_IP = analsys(all_data, zoom);
+
+  // 获取统计数据
+  var tongji = {
+    original: all_data.length,
+  };
+  var tj = 0;
+  for (var ipp in classed_IP){
+    tj += classed_IP[ipp].length;
+  }
+  tongji.now = tj;
+
+  // 将已经汇聚的ip写入txt
+  var write_data = '';
+  for(var w in classed_IP) {
+    for(var y in classed_IP[w]) {
+      write_data = write_data + classed_IP[w][y].ip10 + '/' + classed_IP[w][y].mask + '\n';
+    }
+  }
+  req.session.filepath = req.file.path.split('.')[0]+'.txt';
+  fs.writeFile(req.session.filepath, write_data, function (err) {
+    if(err) {
+      console.error(err);
+    }
+    console.log("写入文件成功！");
+  });
+
+
   res.render('result',{classed_IP: classed_IP, tj: tongji, title: '分析成功'});
 
 });
