@@ -37,7 +37,7 @@ $("document").ready(function() {
       $.post('/uploads/rejudge', parameters, function(data, status) {
         console.log(status);
         $('.body').html(data.html);
-        $('.tj span').html(data.tongji.now +'/' + data.tongji.original)
+        $('.tj span').html(data.tongji.now +'/' + data.tongji.original);
       });
     });
   });
