@@ -33,6 +33,8 @@ $("document").ready(function() {
   $(function() {
     $('#rejudge').on("click", function(e) {
       console.log("ajax");
+      var self = this;
+      $(self).attr("disabled", "disabled");
       var parameters = { weight: $("#weight").val() };
       $.post('/uploads/rejudge', parameters, function(data, status) {
         console.log(status);
@@ -58,6 +60,9 @@ $("document").ready(function() {
             $(self).parent().children('.ip-hint').toggle(200);
           });
         });
+
+        // 恢复不可用状态
+        $(self).removeAttr("disabled");
       });
     });
   });

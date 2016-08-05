@@ -246,7 +246,7 @@ router.post('/rejudge', function(req, res) {
     if(err) {
       console.error(err);
     }
-    console.log("写入文件成功！");
+    // console.log("写入文件成功！");
   });
 
   var html = '<div class="level1">';
@@ -309,7 +309,7 @@ router.post('/upload_file', upload.single('file'), function(req, res, next) {
     if(err) {
       console.error(err);
     }
-    console.log("写入文件成功！");
+    // console.log("写入文件成功！");
   });
 
 

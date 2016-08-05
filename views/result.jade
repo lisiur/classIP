@@ -1,36 +1,37 @@
 extends layout
 
 block content
-  div.header
-    div(class="tj header-item")
-      span(class="btn btn-info")= tj.now +'/' + tj.original
-    div(class="download header-item")
-      form(action="/uploads/download", method="post")
-        input(type="submit" class="btn btn-success" value="下载")
-    div(class="header-item")
-      a(class="btn btn-default", href="/")返回
-  
-  div.maimeng
-    div(class="width-7 left")
-      input(id="weight", class="form-control")
-    div(class="width-3 left")
-      button(id="rejudge", class="btn btn-primary") 分析
-  div.body
-    div.level1
-      - for (var aip in classed_IP){
-      div.item
-        span.ip= aip
-        div.level2
-          - for (var bip in classed_IP[aip]){
-          div.item
-            span.ip= classed_IP[aip][bip].ip10 + '/' + classed_IP[aip][bip].mask
-            - for (var ip in classed_IP[aip][bip].subip){
-              div.level3
-                div.item
-                  span.ip= classed_IP[aip][bip].subip[ip].ip10 + '/' + classed_IP[aip][bip].subip[ip].mask
+  div.outer
+    div.header
+      div(class="tj header-item")
+        span(class="btn btn-info")= tj.now +'/' + tj.original
+      div(class="download header-item")
+        form(action="/uploads/download", method="post")
+          input(type="submit" class="btn btn-success" value="下载")
+      div(class="header-item")
+        a(class="btn btn-default", href="/")返回
+    
+    div.maimeng
+      div(class="width-7 left")
+        input(id="weight", class="form-control")
+      div(class="width-3 left")
+        button(id="rejudge", class="btn btn-primary") 分析
+    div.body
+      div.level1
+        - for (var aip in classed_IP){
+        div.item
+          span.ip= aip
+          div.level2
+            - for (var bip in classed_IP[aip]){
+            div.item
+              span.ip= classed_IP[aip][bip].ip10 + '/' + classed_IP[aip][bip].mask
+              - for (var ip in classed_IP[aip][bip].subip){
+                div.level3
+                  div.item
+                    span.ip= classed_IP[aip][bip].subip[ip].ip10 + '/' + classed_IP[aip][bip].subip[ip].mask
+              -}
             -}
-          -}
-      -}
+        -}
     
     
       
