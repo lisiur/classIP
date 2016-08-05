@@ -26,12 +26,10 @@ a {
 
 .header {
   height: 34px;
-  width: 250px;
   margin-bottom: 10px;
   text-align: center;
 }
 .maimeng {
-  width: 250px;
   height: 34px;
   margin-bottom: 10px;
 }
@@ -44,16 +42,11 @@ a {
 .maimeng .btn {
   border-radius: 0;
 }
-.body {
-  width: 250px;
-}
 .level1, .level2, .level3 {
   border: 2px solid #DDD;
-
 }
 .level1 {
   background-color: #DFF0D8;
-  width: 250px;
 }
 .level1 .item {
   margin-bottom: 20px;
@@ -62,11 +55,11 @@ a {
   cursor: pointer;
 }
 .level2 {
-  margin-left: 20px;
+  margin-left: 80px;
   background-color: #D9EDF7;
 }
 .level3 {
-  margin-left: 20px;
+  margin-left: 100px;
   background-color: #FCF8E3;
 }
 .item {
@@ -79,4 +72,10 @@ a {
 .header-item .btn {
   width: 100%;
   border-radius: 0;
+}
+
+
+.outer {
+  width: 400px;
+  margin: 0 auto;
 }
